@@ -1,6 +1,7 @@
 //made variables to require file system/inquirer
 const inquirer = require("inquirer")
 const fs = require("fs")
+const { Circle, Square, Triangle } = require('./lib/shapes')
 
 
 //made questions to ask the user
@@ -36,3 +37,22 @@ function writeToFile(fileName, data) {
         console.log('Success! Generated logo.svg')
     })
 }
+//function to intialize
+function init() {
+    inquirer.prompt(questions)
+        .then((answers) => {
+            let shape;
+
+            if (answers.choice === 'Circle') {
+                shape = new Circle(answers.letters, answers.colortext, answers.colorshape)
+            } else if (answers.choice === 'Square') {
+                shape = new Square(answers.letters, answers.colortext, answers.colorshape)
+            } else if (answers.choice === 'Triangle') {
+                shape = new Triangle(answers.letters, answers.colortext, answers.colorshape)
+            }
+
+            writeToFile('logo.svg', shape.render());
+        })
+}
+
+init();
